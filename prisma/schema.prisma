@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model cart {
+  id          Int       @id @default(autoincrement())
+  customer_id Int?
+  product_id  Int?
+  unit_price  Int?
+  qty         Int?
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model order {
+  id          Int       @id @default(autoincrement())
+  customer_id Int?
+  order_no    String?   @db.VarChar(255)
+  total_price Int?
+  status      String?   @db.VarChar(255)
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model ordersDetail {
+  id         Int       @id @default(autoincrement())
+  order_no   String?   @db.VarChar(255)
+  product_id Int?
+  unit_price Int?
+  qty        Int?
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+}
+
+model product {
+  id          Int     @id @default(autoincrement())
+  productname String? @db.VarChar(255)
+  price       Int?
+  qty         Int?
+}
